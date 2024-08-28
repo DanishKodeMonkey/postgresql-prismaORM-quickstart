@@ -86,7 +86,27 @@ To use the Prisma client, install it with npm.
 npm install @prisma/client
 ```
 
-    Whenever the Prisma schema is updated, make sure to update the database schema using either prisma migrate dev or prisma db push
+    Whenever the Prisma schema is updated, make sure to update the database schema using either prisma migrate dev or prisma db push.
+
+Alternatively, if a change is made on the database using SQL manually, e.g using
+
+```sql
+CREATE TABLE
+```
+
+or
+
+```SQL
+ALTER TABLE
+```
+
+etc. You can use a introspection approach to update the prisma schema, based on the current state of the database, and generate a prisma client from there.
+
+TO do this
+
+1. Update the database table manually using SQL
+2. use `prisma db pull` to pull the latest database tables, and update the prisma schema
+3. use `prisma generate` to manually prompt a update to the prisma client.
 
 ## Part 4.2 - Querying - prisma findMany()
 
