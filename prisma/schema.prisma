@@ -4,15 +4,20 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// Generator: Indicates that you want to generate Prisma Client
 generator client {
   provider = "prisma-client-js"
 }
 
+// Data source: Specifies your database connection (via an environment variable)
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// Data model: Defines your application models
+// Represent a table in relational databases
+// Provide the foundation for the queries in the Prisma Client API
 model Post {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())

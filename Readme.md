@@ -101,6 +101,8 @@ const { PrismaClient } = require('@prisma/client');
 // Instantiate PrismaClient
 const prisma = new PrismaClient();
 
+// We are now ready to send queries via our generated Prisma Client API
+
 // Define async functions in main to query to database
 async function main() {
     // write prisma client queries here
@@ -132,6 +134,7 @@ Expand on this by querying `prisma.user.create({})` with some data
 
 ```javascript
 // Import PrismaClient
+// will expose CRUD and more queries for the defined models.
 const { PrismaClient } = require('@prisma/client');
 
 // Instantiate PrismaClient
