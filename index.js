@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 // Define async functions in main to query to database
 async function main() {
-    // write prisma client queries here
+    /*     // write prisma client queries here
     // create users in database using pre-defined prisma function for user schema
     await prisma.user.create({
         // Submit following data
@@ -20,6 +20,19 @@ async function main() {
             profile: { create: { bio: 'I like bananas' } },
         },
     });
+    
+
+    // call pre-defined prisma function from user schema "findMany()" reading all User records.
+    const allUsers = await prisma.user.findMany({
+        include: { posts: true, profile: true },
+    });
+    // print to console.
+    console.dir(allUsers, { depth: null }); */
+
+    // ===============================================
+    // ===== Either or above or below, not both ======
+    // ===============================================
+
     // Update new user data
     // updated data will be assigned to post after operation
     // initiate update operation on 'post' table
@@ -34,12 +47,6 @@ async function main() {
     });
     // log updated post to console
     console.log(post);
-    // call pre-defined prisma function from user schema "findMany()" reading all User records.
-    const allUsers = await prisma.user.findMany({
-        include: { posts: true, profile: true },
-    });
-    // print to console.
-    console.dir(allUsers, { depth: null });
 }
 
 // Call main, and handle success or error cases

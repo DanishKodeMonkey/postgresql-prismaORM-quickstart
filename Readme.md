@@ -227,3 +227,24 @@ const post = await prisma.post.update({
 // log updated post to console
 console.log(post);
 ```
+
+Running our project now will return our updated post, with published set to true
+
+```bash
+❯ node index.js
+{
+  id: 1,
+  createdAt: 2024-08-28T08:39:15.072Z,
+  updatedAt: 2024-08-28T08:49:12.216Z,
+  title: 'Hello world',
+  content: null,
+  published: true,
+  authorId: 1
+}
+```
+
+# Conclusion
+
+With that we have set up our prisma ORM in our development environment, and tested its functionality.
+
+The project is now ready to be expanded upon!
