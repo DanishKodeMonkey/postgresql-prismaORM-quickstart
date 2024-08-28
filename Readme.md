@@ -75,8 +75,7 @@ A useful example for reference when laying out your data models
 npx prisma migrate dev --name init
 ```
 
-Prisma now generates a SQL miration file for this setup and runs it against the database.
-This works much like a git version control as each migration is saved independently.
+Prisma now generates a SQL migration file for this setup and runs it against the database.
 
 # Part 4 - The Prisma client
 
