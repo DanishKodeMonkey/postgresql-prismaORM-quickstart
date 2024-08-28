@@ -248,3 +248,7 @@ Running our project now will return our updated post, with published set to true
 With that we have set up our prisma ORM in our development environment, and tested its functionality.
 
 The project is now ready to be expanded upon!
+
+Again, this is meant as a quick-start setup that can be referred to for a quick and easy point of reference when starting up a Prisma ORM setup.
+
+For a full in-depth guide, see [the official prisma docs](https://www.prisma.io/docs/getting-started/)
