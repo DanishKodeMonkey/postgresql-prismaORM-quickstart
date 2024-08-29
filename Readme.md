@@ -265,6 +265,85 @@ Running our project now will return our updated post, with published set to true
 }
 ```
 
+# Part 5 - Prisma Relations
+
+Prisma handles relations of foreign keys between tables under the hood for the database.
+
+There are three types of table relations to keep in mind
+One-To-One
+One-To-Many
+Many-To-Many
+
+A easy overview of different ways to link two tables together can be described in the following snippet
+
+```prisma
+model User {
+  id      Int      @id @default(autoincrement())
+  posts   Post[] //  User-Post, One-To-Many (User ONE, posts MANY)
+  profile Profile? // User-Profile, One-To-One (User ONE, profile ONE)
+}
+
+model Profile {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id]) // User-Profile, One-To-One (User One, profile ONE)
+  userId Int  @unique // relation scalar field (used in the `@relation` attribute above)
+}
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  author     User       @relation(fields: [authorId], references: [id]) // Post-User, One-To-Many(User ONE, Posts MANY)
+  authorId   Int // relation scalar field  (used in the `@relation` attribute above)
+  categories Category[] // Posts-Categories, Many-To-Many (Posts MANY, categories MANY)
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  posts Post[] // Posts-Categories, Many-To-Many(Posts MANY, categories MANY)
+}
+```
+
+In short, the different relations can be established as follows:
+`One-To-One`
+User is tried to Profile by referencing the profile model with `Profile?` (`?` is a optional indicator of a field, omit to make it required.)
+Profile is tied to User by referencing User model with the `@relation` attribute, and the `userId scalar field`, referencing the User model `id` field
+
+    Which side of the One-To-One relation holds the @relation attribute is up to you, choose whichever makes the most sense
+
+`One-To-Many`
+User is tied to the Post model using `Post[]`
+Post is tied to the User model using the `author` column, with the `@relation` attribute, and the `authorId` scalar field, referencing the user model `id` field
+
+`Many-To-Many`
+Post is tied to Category using `Post[]`
+Category is tied to User using `User[]`
+
+Furthermore, in the case of a `Many-To-Many` relationship, there are two types to keep in mind.
+
+#### `Explicit Many-To-Many`
+
+relations, requiring you to define a seperate relations table between two tables, in the above example called CategoriesOnPost that.
+
+This model, at minimum, requires:
+
+a `post` and `postId` column, relating to the `post` model using the `postId` scalar field
+
+a `category` and `categoryId` column, relating to the `category` model using the `categoryId` scalar field
+
+A composite primary key `@@id([postId, categoryId])` which ensures each combination of postId and categoryId is unique in the table, preventing the same category to be assigned ot the same post more than once in the relation.
+
+#### `Implicit Many-To-Many`
+
+relations, however, lets Prisma ORM manage the relation table under the hood, the model will not appear in the prisma table.
+
+Both of these methods have pros and cons
+`Explicit`
+**Pros:** Flexible, Great control, clear semantics, easy to migrate and evolve
+**Cons:** More boilerplate, manual management, more complex queries
+
+`Implicit`
+**Pros:** Flexible, less code, automatic management, cleaner schema.
+**Const:** Limited flexibility, reduced control, Harder to migrate and evolve.
+
 # Conclusion
 
 With that we have set up our prisma ORM in our development environment, and tested its functionality.
