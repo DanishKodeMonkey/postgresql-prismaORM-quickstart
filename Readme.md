@@ -147,6 +147,34 @@ main()
 
 running `node index.js` should return `[]` since we have no data yet, but this shows that it works!
 
+### findUnique()
+
+use `findUnique({})` to return a single record identified by a unique identifier or ID.
+
+```javascript
+const user = await prisma.user.findUnique({
+    where: {
+        id: 2,
+    },
+});
+```
+
+### findFirst()
+
+use `findFirst({})` to return the most recently created record with matching columns.
+
+```javascript
+const findUser = await prisma.user.findFirst({
+    where: {
+        posts: {
+            name: 'somePostName',
+        },
+    },
+});
+```
+
+**More about find operations [here](https://www.prisma.io/docs/orm/prisma-client/queries/crud)**
+
 ## Part 4.3 - Querying - prisma create({})
 
 Expand on this by querying `prisma.user.create({})` with some data
@@ -227,7 +255,25 @@ If everything went right, our `node index.js` should return the following
 ]
 ```
 
-## Part 4.4 - Querying - prisma update({})
+## Part 4.4 - Querying - prisma createMany({})
+
+`createMany({})` creates bulk insertion operations to the database, accepting multiple data objects, skipping any duplicates.
+
+```javascript
+const createMany = await prisma.user.createMany({
+    data: [
+        { name: 'Foo', email: 'foo@mail.com' },
+        { name: 'Bar', email: 'bar@nail.net' },
+    ],
+    skipDuplicates: true,
+});
+```
+
+on the Database side, prisma queries a single `INSERT INTO` query with multiple values, providing quick and efficient operation times.
+
+    Alternatively, use `createManyAndReturn({ })` to perform the same operation, but return the resulting objects.
+
+## Part 4.5 - Querying - prisma update({})
 
 Updating using prisma is similar to create, specify what column should be updated with what data.
 
@@ -265,7 +311,35 @@ Running our project now will return our updated post, with published set to true
 }
 ```
 
-# Part 5 - Prisma Relations
+## Part 4.6 - Querying - prisma upsert({})
+
+A combination of both update and insert(create) operations, try to update a user record, if it fails(does not exist) create the user record.
+
+```javascript
+const upsetUser = await prisma.user.upsert({
+    where: {
+        email: 'foo@bar.net',
+    },
+    // try to update
+    update: { name: 'FooBar' },
+    // if failed, create.
+    create: { email: 'foo@bar.net', name: 'FooBar' },
+});
+```
+
+# Conclusion
+
+With that we have set up our prisma ORM in our development environment, and tested its functionality.
+
+The project is now ready to be expanded upon!
+
+Again, this is meant as a quick-start setup that can be referred to for a quick and easy point of reference when starting up a Prisma ORM setup.
+
+For a full in-depth guide, see [the official prisma docs](https://www.prisma.io/docs/getting-started/)
+
+Below are various notes to keep in mind setting up the Prisma ORM
+
+# Notes 1 - Prisma Relations
 
 Prisma handles relations of foreign keys between tables under the hood for the database.
 
@@ -343,13 +417,3 @@ Both of these methods have pros and cons
 `Implicit`
 **Pros:** Flexible, less code, automatic management, cleaner schema.
 **Const:** Limited flexibility, reduced control, Harder to migrate and evolve.
-
-# Conclusion
-
-With that we have set up our prisma ORM in our development environment, and tested its functionality.
-
-The project is now ready to be expanded upon!
-
-Again, this is meant as a quick-start setup that can be referred to for a quick and easy point of reference when starting up a Prisma ORM setup.
-
-For a full in-depth guide, see [the official prisma docs](https://www.prisma.io/docs/getting-started/)
