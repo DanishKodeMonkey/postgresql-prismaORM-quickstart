@@ -327,6 +327,20 @@ const upsetUser = await prisma.user.upsert({
 });
 ```
 
+## Part 4.7 - Querying - deleteMany()
+
+to delete multiple records, use `deleteMany()`
+
+```javascript
+const deleteMany = await prisma.user.deleteMany({
+    where: {
+        id: [1, 2, 3, 4, 5],
+    },
+});
+```
+
+I should not have to stress how dangerous using deleteMany({}) without any specifying parameters where: is... if I do, it would delete ALL records on the table.
+
 # Conclusion
 
 With that we have set up our prisma ORM in our development environment, and tested its functionality.
