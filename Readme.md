@@ -431,3 +431,14 @@ Both of these methods have pros and cons
 `Implicit`
 **Pros:** Flexible, less code, automatic management, cleaner schema.
 **Const:** Limited flexibility, reduced control, Harder to migrate and evolve.
+
+
+
+# Notes 2 - model type overview - alot of fields
+
+As an example, lets go through alot of different model fields
+
+```prisma
+
+
+```
