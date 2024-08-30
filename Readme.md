@@ -432,13 +432,26 @@ Both of these methods have pros and cons
 **Pros:** Flexible, less code, automatic management, cleaner schema.
 **Const:** Limited flexibility, reduced control, Harder to migrate and evolve.
 
-
-
 # Notes 2 - model type overview - alot of fields
 
-As an example, lets go through alot of different model fields
+The following are field types you may run in to
 
 ```prisma
+model ModelOne {
+  id            Int        @id @default(autoincrement()) // Field level attribute, sets attribute to field.
+  name          String // e.g DanishKodeMonkey
+  age           Int
+  email         String     @unique // E.g DanishKode@Monkey.Banana with unique attribute (cannot be duplicates)
+  isAdmin       Boolean // true/false
+  role          Role       @default(BASIC) // role determined from custom ENUM type
+  largeNumber   BigInt // big number
+  preferences   Json //json format
+  blob          Bytes // file byte breakdown
+  Post          ModelTwo[] @relation("Posts") // Many relationship
+  FavoritePosts ModelTwo[] @relation("FavoritePost") // Second many relation to same table, use relation names
 
-
+  // Block level attribute, applies to whole block (denoted by @@)
+  @@unique([age, name]) // This specifically requires "age" and "name" to be unique
+  @@index([email]) // indexes email field on this block
+}
 ```
