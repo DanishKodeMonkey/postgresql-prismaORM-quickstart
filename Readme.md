@@ -395,7 +395,7 @@ In short, the different relations can be established as follows:
 User is tried to Profile by referencing the profile model with `Profile?` (`?` is a optional indicator of a field, omit to make it required.)
 Profile is tied to User by referencing User model with the `@relation` attribute, and the `userId scalar field`, referencing the User model `id` field
 
-    Which side of the One-To-One relation holds the @relation attribute is up to you, choose whichever makes the most sense
+    Which side of the One-To-One relation holds the @relation attribute is up to you, choose whichever makes the most sense as long as both sides are optional. If a side has a required field, make sure to place @relation on that side.
 
 `One-To-Many`
 User is tied to the Post model using `Post[]`
